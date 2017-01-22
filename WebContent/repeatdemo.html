@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Repeat Demo</title>
+<script src="angular.js"></script>
+<script>
+        var module = angular.module("demo", []);
+
+        module.controller("DemoController",
+         function ($scope) {
+             $scope.names = ["Scott", "Tom", "Bob", "Tim"];
+             
+             $scope.name = "";
+             // Adds a name to names
+             $scope.add = function () {
+                 $scope.names.push($scope.name);
+             };
+
+             // Deletes name given in textbox
+             $scope.delete = function () {
+            	 
+            	  var pos = $scope.names.indexOf($scope.name); // look for index of the name
+                  if (pos == -1)
+                  {
+                      alert("Sorry! Name not found!");
+                      return;
+                  }
+            	  
+                 var result = confirm("Do you really want to delete?");
+                 if (!result)
+                     return;
+
+                 $scope.names.splice(pos, 1); // delete element from pos
+             };
+             
+             $scope.sort = function () {
+                 $scope.names.sort();
+             };
+             
+        });
+ 
+    </script>
+</head>
+<body ng-app="demo">
+	<div ng-controller="DemoController">
+		<h2>Names</h2>
+		<ul>
+			<li ng-repeat="n in names">
+			  {{n}} - {{ n.length}}
+			</li>
+		</ul>
+
+		Name : <input type="text" ng-model="name" />
+		<p />
+		<button ng-click="add()">Add</button>
+		<button ng-click="sort()">Sort</button>
+		<button ng-click="delete()">Delete</button>
+
+
+	</div>
+
+</body>
+</html>

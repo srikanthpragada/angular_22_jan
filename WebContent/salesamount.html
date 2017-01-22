@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title></title>
+    <script src="angular.js"></script>
+    <script>
+        var module = angular.module("demo", []);
+
+        module.controller("DemoController", function ($scope) {
+            $scope.qty = 0;
+            $scope.price = 0;
+            $scope.discount = true;
+            
+            $scope.clear = function () {
+                $scope.qty = 0;
+                $scope.price = 0;
+                $scope.discount = false; 
+            };
+            $scope.calculate = function(){
+                if ($scope.discount)
+                    return $scope.qty * $scope.price * 0.9;
+                else
+                    return $scope.qty * $scope.price;
+            }
+        });
+
+    </script>
+</head>
+<body ng-app="demo">
+    <h2>Sales Amount Calculation</h2>
+    <div ng-controller="DemoController">
+      
+       Quanity : <input type="text" ng-model="qty"/> 
+       Price : <input type="text" ng-model="price" />
+       <p/>
+       <input type="checkbox"  ng-model="discount" /> Discount 
+       <p/>
+       <button ng-click="clear()">Reset</button>
+       <h3 ng-hide="qty == 0 || price == 0">
+           Sales Amount : {{ calculate() }}
+       </h3>
+    </div>
+</body>
+</html>

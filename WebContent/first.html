@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="angular.js"></script>
+<script>
+	var module = angular.module("First", []);
+
+	var firstController = function($scope) {
+		$scope.message = "Welcome!";
+		$scope.upper = function () {
+			$scope.message  = $scope.message.toUpperCase();
+		};
+	};
+
+	var secondController = function($scope) {
+		$scope.message = "Good Bye!";
+	};
+
+	module.controller("FirstController", firstController);
+	module.controller("SecondController", secondController);
+</script>
+<title>First Page</title>
+</head>
+<body ng-app="First">
+	<div ng-controller="FirstController">
+	  {{ message }}
+	  <button ng-click="upper()">Upper </button>
+	 </div>
+	<div ng-controller="SecondController">
+	   {{ message }}
+	</div>
+</body>
+</html>

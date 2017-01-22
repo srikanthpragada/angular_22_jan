@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="angular.js"></script>
+    <script>
+        var module = angular.module("demo", []);
+
+        module.controller("DemoController",
+         function ($scope) {
+             $scope.langs = { 'Java': 8.0, 'C#': 6.0 , "Python" : 3.0 , "Oracle Database" : 12 };
+         
+        });
+ 
+    </script>
+</head>
+<body ng-app="demo">
+    <div ng-controller="DemoController">
+         <h3 ng-repeat="(name, version) in langs">
+            <hr ng-show="$first"/>
+            {{$index + 1}} - {{$even}} -  {{ name }}  - {{ version }}
+            <hr ng-show="$last"/>
+         </h3>
+         
+
+    </div>
+
+</body>
+</html>
