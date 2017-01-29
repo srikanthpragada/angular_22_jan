@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html ng-app="App">
+<head>
+    <title>Dependents</title>
+    <script src="../scripts/jquery.js"></script>
+    <script src="../scripts/bootstrap.js"></script>
+    <link href="../scripts/bootstrap.css" rel="stylesheet" />
+    <script src="../angular.js"></script>
+    <script>
+        var mod = angular.module("App", []);
+        mod.controller("PersonsController", 
+        function ($scope,$http) {
+
+            $scope.persons = [];
+            $scope.person = {Name: '', Gender: 'm', Age: '' };
+
+            $scope.add = function () {
+                var person = { Name: $scope.person.Name, Gender: $scope.person.Gender, Age: $scope.person.Age };
+                $scope.persons.push(person);
+            };
+
+            $scope.delete = function (index) {
+                $scope.persons.splice(index, 1);
+            };
+
+            $scope.show = function () {
+                var info = "";
+                for(i in $scope.persons)
+                {
+                    info += $scope.persons[i].Name + "," +  $scope.persons[i].Gender + "," + $scope.persons[i].Age +  "\n";
+                }
+                alert(info);
+            }
+
+            $scope.sendToServer = function () {
+                $http({
+                    method: 'post', url: 'persons.aspx', data : $scope.persons,
+                    headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).
+                    success(function (data) { alert("Ok"); }).
+                    error(function (data) { alert("Error " + data) });
+               
+            }
+        }
+        );
+    </script>
+</head>
+<body ng-controller="PersonsController">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Persons</h1>
+            <p>Add details of your friends and relatives!</p>
+        </div>
+        <div>
+            <div class="row">
+            </div>
+            <div class="row">
+                <span class="col-md-2">Name </span>
+                <span class="col-md-*"><input type="text" ng-model="person.Name" /></span>
+            </div>
+            <div class="row">
+                <span class="col-md-2">Gender </span>
+                <span class="col-md-*"><input type="radio" ng-model="person.Gender" value="m" /> Male  <input type="radio" ng-model="person.Gender" value="f" /> Female</span>
+            </div>
+            <div class="row">
+                <span class="col-md-2">Age </span>
+                <span class="col-md-*"><input type="text" ng-model="person.Age" /></span>
+            </div>
+            <p></p>
+            <button class="btn-primary" ng-click="add()">Add Person</button>
+        </div>
+        <div>
+            <h3>Persons</h3>
+            <h5 ng-show="persons.length == 0">No Dependends Added Yet!</h5>
+            <p />
+            <table ng-show="persons.length > 0" class="table table-bordered">
+                <tr>
+                    <th>Sno.</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Age</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="p in persons">
+                    <td>
+                        {{ $index +1}}
+                    </td>
+                    <td>
+                        <input type="text" ng-model="p.Name" id="Name" />
+                    </td>
+                    <td>
+                        <input type="radio" ng-model="p.Gender" value="m" /> Male
+                        <input type="radio" ng-model="p.Gender" value="f" /> Female
+                    </td>
+                    <td>
+                        <input type="text" ng-model="p.Age" id="Age" />
+                    </td>
+                    <td>
+                        <button ng-click="delete($index)">Delete</button>
+                    </td>
+
+                </tr>
+            </table>
+
+            <p />
+            <button class="btn-primary" ng-click="show()">Show Preview </button>
+            <button class="btn-primary" ng-click="sendToServer()">Save To Server </button>
+        </div>
+
+    </div>
+</body>
+</html>
+

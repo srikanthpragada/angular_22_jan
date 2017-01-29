@@ -5,7 +5,7 @@
 <script>
 	var module = angular.module("First", []);
 
-	var firstController = function($scope) {
+	var firstController = function($scope,$log) {
 		$scope.message = "Welcome!";
 		$scope.upper = function () {
 			$scope.message  = $scope.message.toUpperCase();

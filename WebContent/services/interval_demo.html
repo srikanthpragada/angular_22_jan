@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .big { font-size:30pt;
+               color:red;
+               font-family:Arial;
+        }
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+        var module1 = angular.module("intervaldemo", []);
+
+        var intervalController = function ($scope, $interval, $log) {
+            $scope.running = true; 
+            $scope.time = new Date();
+
+            $scope.start = function () {
+                promise = $interval($scope.updateTime, 1000);
+                $scope.running = true;
+                $log.info("Started Interval");
+            };
+
+            $scope.updateTime = function () {
+                $scope.time = new Date();
+            }
+            $scope.stop = function () {
+                $interval.cancel(promise);
+                $scope.running = false; 
+                $log.info("Stopped Interval");
+            };
+
+            $scope.start();
+        };
+
+        module1.controller("intervalController", intervalController, ['$interval','$log']);
+
+
+    </script>
+</head>
+<body ng-app="intervaldemo">
+    <div ng-controller="intervalController">
+       
+        <div id="count" class="big"> {{  time | date : 'H:mm:ss' }}</div>
+        <p/>
+        <button ng-disabled="running" ng-click="start()">Start Time </button>
+        <button ng-disabled="!running"  ng-click="stop()">Stop  Time </button>
+
+    </div>
+</body>
+</html>

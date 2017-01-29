@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .regform input.ng-invalid { color :red}
+        .regform input.ng-valid { color : blue}
+    </style>
+    <script src="../angular.js"></script>
+    <script>
+    angular.module("login", []).
+
+    controller("LoginController", function ($scope) {
+        $scope.username = "";
+        $scope.password = "";
+        $scope.process = function () {
+            alert("Form is " +  ($scope.loginForm.$valid ? " Valid " : "Invalid"));
+        }
+    });
+
+</script>
+
+</head>
+<body ng-app="login">
+    <h2>Login</h2>
+
+     <form name="loginForm" class="regform"
+           ng-controller="LoginController" novalidate 
+           ng-submit="process()">
+         Username <br/>
+         <input type="text" 
+                id="username"
+                name="username" 
+                ng-model="username"   
+                ng-required 
+                ng-minlength="4"
+                ng-maxlength="10"/>
+         <span ng-show="loginForm.username.$invalid  && loginForm.username.$dirty">
+           Username must be 4 to 10 chars</span>
+         <p/>
+         Password <br />
+         <input type="password" id="password"
+                name="password" 
+                ng-model="password" 
+                required 
+                ng-minlength="4" 
+                ng-maxlength="10" />
+         <p/>
+             
+         <input type="submit" value="Login"
+               ng-disabled="loginForm.$invalid || loginForm.$pristine" /> 
+         <p/>
+
+         Username : {{ username }}, Password : {{ password }}
+         <p/>
+         Submitted : {{loginForm.$submitted}}
+ 
+     </form>
+</body>
+</html>

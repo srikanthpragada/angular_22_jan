@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script>
+        var module1 = angular.module("logDemo", []);
+
+        var logDemoController = function ($scope,$log,$window) {
+            $scope.showToday = function () {
+                var today = new Date().toString();
+                $log.warn(today);
+                // $window.alert(today);
+            }
+        };
+
+        module1.controller("logDemoController", 
+        		 ['$scope', '$log', '$window', logDemoController]);
+
+
+    </script>
+</head>
+<body ng-app="logDemo">
+    <div ng-controller="logDemoController">
+        <button ng-click="showToday()">Show Today</button>
+    </div>
+</body>
+</html>
