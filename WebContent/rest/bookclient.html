@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books Client</title>
+    <style>
+        body {
+            font-family: Verdana;
+            font-size: 12pt;
+        }
+
+        .heading {
+            color: white;
+            font-weight: bold;
+            background-color: red;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        .message {
+            font-size: 12pt;
+            font-weight: bold;
+        }
+    </style>
+    <script src="../angular.js"></script>
+    <script src="../angular-resource.js"></script>
+    <script>
+        var books = angular.module("books", ['ngResource']); // this module depends on ngResource module
+
+        var controller = function ($scope, $resource) {  // controller uses $resource, which is part of ngResource
+            $scope.books = {};
+            $scope.getBooks = function() {
+                var request = $resource("http://test.srikanthpragada.com/api/Books");
+                $scope.books = request.query();
+            };
+            
+            $scope.addBook = function () {
+                var request = $resource("http://test.srikanthpragada.com/api/Books");
+                request.save($scope.book,
+                       function (data) {        // success function
+                           $scope.error = "Successfully Added Contact [" + $scope.book.Title + "]";
+                           $scope.book = {};
+                           $scope.getBooks();
+                       }
+                       ,
+                       function (data) {       // error function
+                           $scope.error = "Sorry! Could not add  book [" + $scope.book.Title + "]";
+                       }
+                 );
+            };
+
+            
+
+            $scope.deleteContact = function (id) {
+                var res = confirm("Do you really want to delete book [" + id + "]?");
+                if (!res)
+                    return;
+
+                var request = $resource("http://test.srikanthpragada.com/api/Books/:id");
+                request.delete( { id : id },
+                       function (data) {        // success function
+                           $scope.error = "Successfully Deleted Book [" + id + "]";
+                           $scope.getBooks(); // refresh
+                       }
+                       ,
+                       function (data) {       // error function
+                           $scope.error = "Sorry! Could not delete book [" + id + "]";
+                       }
+                 );
+            };
+
+          
+            $scope.updateBook = function () {
+
+                // create a custom action with name update
+                var request = $resource("http://test.srikanthpragada.com/api/Books/:id",
+                      { id : $scope.book.Id },
+                      { update  : { method : 'put'} }
+                      );
+
+                // call custom action update to make PUT request
+                request.update($scope.book,
+                      function (data) {        // success function
+                           $scope.error = "Successfully Updated Book With ID [" + $scope.book.Id + "]";
+                       }
+                       ,
+                       function (data) {       // error function
+                           $scope.error = "Sorry! Could not update book with id [" + $scope.book.Id + "]";
+                       }
+                 );
+
+
+            };
+
+            $scope.editContact = function (id) {
+                for (var idx in $scope.books) {
+                    if ($scope.books[idx].Id == id) {
+                        $scope.book = $scope.books[idx];
+                        return;
+                    }
+                }
+            };
+
+            $scope.clear = function () {
+                $scope.book = {};
+                $scope.error = "";
+            }
+
+           
+
+            // call getBooks() on load to get books displayed initially
+            $scope.getBooks();
+        };
+
+        books.controller("BooksController", controller);  // add Controller to Module
+    </script>
+</head>
+<body ng-app="books">
+    <div ng-controller="BooksController">
+        <h2>Books Manager</h2>
+        <fieldset style="background-color: silver">
+            Title : <input type="text" ng-model="book.Title" />
+            Price : <input type="text" ng-model="book.Price" />
+       
+            <p />
+            <input type="button" value="Update Contact" ng-click="updateBook()" />
+            <input type="button" value="Add Book" ng-click="addBook()" />
+            <input type="button" value="Refresh" ng-click="getBooks()" />
+            <input type="button" value="Clear Details" ng-click="clear()" />
+            <span ng-bind="error" class="message"></span>
+            <p />
+        </fieldset>
+
+        <fieldset>
+            <legend>Books</legend>
+            <table style="width:100%; padding: 5pt">
+                <tr class="heading">
+                    <th>Title </th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="book in books">
+                    <td>{{ book.Title }}</td>
+                    <td>{{ book.Price }}</td>
+                    <td>
+                        <button ng-click="editContact(book.Id)">Edit</button>
+                        <button ng-click="deleteContact(book.Id)">Delete</button>
+
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</body>
+</html>

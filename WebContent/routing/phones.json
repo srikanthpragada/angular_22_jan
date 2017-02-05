@@ -1,0 +1,22 @@
+[
+    {
+        "id": "iphone7",
+        "name": "Apple iPhone 7",
+        "snippet": "New iPhone7 has all that you want!"
+    },
+    {
+        "id": "noteedge",
+        "name": "Samsung Galaxy Note Edge",
+        "snippet": "A very high feature rich phone"
+    },
+    {
+        "id": "lumia",
+        "name": "Microsoft Lumia 920",
+        "snippet": "Windows phone from Microsoft"
+    },
+     {
+        "id": "nexus6p",
+        "name": "Google Nexus 6p",
+        "snippet": "A master stroke from Google"
+    }
+]

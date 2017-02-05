@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../angular.js"></script>
+    <script src="../angular-route.js"></script>
+    <script>
+        var phones = angular.module('phones', []);
+
+        phones.controller('PhoneListCtrl', ['$scope', '$http',
+          function ($scope, $http) {
+              $http.get('phones.json').success(function (data) {
+                  $scope.phones = data;
+              });
+              $scope.orderProp = 'name';
+              $scope.query = "";
+          }]);
+
+    </script>
+</head>
+<body ng-app="phones">
+
+    <div ng-controller="PhoneListCtrl">
+        <div>
+            <div>
+                Search: <input ng-model="query">
+                Sort by:
+                <select ng-model="orderProp">
+                    <option value="name">Alphabetical</option>
+                    <option value="id">Id</option>
+                </select>
+
+            </div>
+            <div>
+                <ul>
+                    <li ng-repeat="phone in phones">
+                        <a href="#/phones/{{phone.id}}">{{phone.name}}</a>
+                        <p>{{phone.snippet}}</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Custom Address Directive</title>
+    <script src="../angular.js"></script>
+    <script>
+        var app = angular.module('app', []);
+        app.controller('Controller', ['$scope', function ($scope) {
+            $scope.person = {
+                name: 'Srikanth Pragada',
+                mobile: '9059057000'
+            };
+        }]);
+        
+        app.directive('person', function () {
+            return {
+                template: 'Name: {{ person.name}},  Mobile : {{ person.mobile }}'
+            };
+        });
+        
+        app.controller('Controller2', ['$scope', function ($scope) 
+        {
+        	 $scope.person = {
+                     name: 'Srikanth',
+                     mobile: '2541948'
+                 };
+
+        }]);
+       
+    </script>
+</head>
+
+<body ng-app="app">
+    <div ng-controller="Controller">
+        <h2 data-person></h2>
+        <person></person>
+    </div>
+    
+    <div ng-controller="Controller2">
+        <person></person>
+    </div>
+</body>
+
+</html>
