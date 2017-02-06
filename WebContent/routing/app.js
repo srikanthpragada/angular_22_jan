@@ -5,8 +5,11 @@ var app = angular.module('phonecatApp', [
   'phonecatControllers'
 ]);
 
-app.config(['$routeProvider',
-  function ($routeProvider) {
+app.config(['$locationProvider','$routeProvider',
+  function ($locationProvider, $routeProvider) {
+      
+	  $locationProvider.hashPrefix('');   // needed 
+      
       $routeProvider.
         when('/phones', {
             templateUrl: 'phone-list.html',

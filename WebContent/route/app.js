@@ -1,9 +1,11 @@
 ﻿var app = angular.module('routedemo', ['ngRoute']);
 
 app.config(
-    ['$routeProvider',
-     function ($routeProvider)
+    ['$locationProvider','$routeProvider',
+     function ($locationProvider,$routeProvider)
      {
+    	
+      $locationProvider.hashPrefix('');    	// needed
       $routeProvider.
         when('/first', {
             templateUrl: 'first.html',
